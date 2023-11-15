@@ -1,0 +1,1 @@
+console.log("Kisi ko ghr sy nikalty hvy milgye manzil.....");
