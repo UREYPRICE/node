@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+
+    
+    "type": "git",
+    "url": "https://github.com/UREYPRICE/node.git"
+  },
+  "author": "Ahmed Waqar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UREYPRICE/node/issues"
+  },
+  "homepage": "https://github.com/UREYPRICE/node#readme"
+}
