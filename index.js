@@ -41,4 +41,6 @@ app.listen(port, ()=> {
 
     console.log(`http://localhost:${port}`)
 
+    console.log('Or Ctrl + C to Exit the Server.....');
+
 })
