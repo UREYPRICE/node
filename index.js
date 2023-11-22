@@ -22,4 +22,20 @@ let notes = [
 
 
 
-app.get('/')
+app.get('/', (req, res)=> {
+    res.send('<h1>Ahmed Waqar</h1>')
+})
+
+
+app.get('/api/notes', (req, res) => {
+res.json(notes)
+})
+
+const port = 3001 
+
+app.listen(port, ()=> {
+
+    console.log(`Server running on port ${port}`)
+    console.log(`http://localhost:${port}`)
+
+})
