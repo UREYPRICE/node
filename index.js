@@ -37,6 +37,14 @@ const id = Number (req.params.id)
 const note = notes.find(note => note.id===id)
 res.json(note)
 
+if(note){
+  res.json(note)
+}
+else{
+  res.status(404).end()
+}
+
+
 } )
 
 const port = 3001 
