@@ -47,6 +47,18 @@ else{
 
 } )
 
+
+app.delete('/api/notes/:id', (req, res)=> {
+
+const id = Number (req.params.id)
+notes = notes.filter(note => note.id !== id)
+
+res.status(204).end()
+
+
+})
+
+
 const port = 3001 
 
 app.listen(port, ()=> {
