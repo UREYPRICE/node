@@ -31,6 +31,14 @@ app.get('/api/notes', (req, res) => {
 res.json(notes)
 })
 
+
+app.get('/api/notes/:id', (req, res) => {
+const id = req.params.id
+const note = notes.find(note => note.id===id)
+res.json(note)
+
+} )
+
 const port = 3001 
 
 app.listen(port, ()=> {
@@ -41,7 +49,7 @@ app.listen(port, ()=> {
 
     console.log(`http://localhost:${port}`)
 
-    console.log('Or Ctrl + C to Exit the Server.....');
+    console.log('Or Ctrl + C to Exit the Server............');
 
 
 })
