@@ -32,11 +32,14 @@ app.get('/api/persons', (req,res) => {
 })
 
 
+const date = new Date();
 
-app.get('/', (req, res) => {
+app.get('/api/persons/info', (req, res) => {
 
-  const contactList = 1
-  const response = `<h1>Hello World! there are ${contactList}</h1>`
+  const contactList = persons.length
+  const response = `<p>PhoneBook has info for ${contactList} people <br/><br/>
+  ${date}
+  </p>`
 
   res.send(response)
 })
@@ -45,6 +48,6 @@ app.get('/', (req, res) => {
 const Port = 3001
 
 app.listen(Port, ()=> {
-  console.log(`Server is started on Port${Port}`)
+  console.log(`Server is started on Port ${Port}`)
 
 })
