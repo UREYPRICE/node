@@ -33,18 +33,9 @@ app.get('/api/persons', (req,res) => {
 
 
 
-app.get('/', (req, res) => {
 
-  const contactList = 1
-  const response = `<h1>Hello World! there are ${contactList}</h1>`
+const port = 3001;
 
-  res.send(response)
-})
-
-
-const Port = 3001
-
-app.listen(Port, ()=> {
-  console.log(`Server is started on Port${Port}`)
-
-})
+app.listen(port, () => {
+  console.log(`Server is started on Port ${port}`);
+});
