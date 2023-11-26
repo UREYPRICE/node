@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-app.use(express.json)
+app.use(express.json())
 let notes = [
     {
       id: 1,
@@ -57,6 +57,19 @@ res.status(204).end()
 
 
 })
+
+
+app.post('/api/notes', (req, res) => {
+
+const note = req.body
+
+console.log(note);
+res.json(note)
+
+
+
+})
+
 
 
 const port = 3001 
