@@ -1,7 +1,7 @@
 
 const express = require('express')
 const app = express()
-
+app.use(express.json())
 let persons = [
   { 
     "id": 1,
@@ -27,7 +27,7 @@ let persons = [
 
 
 
-app.get('/api/persons', (req,res) => {
+app.get('/', (req,res) => {
   res.json(persons)
 })
 
@@ -72,7 +72,54 @@ res.status(204).end()
 
 } )
 
+const newId = () => {
+ 
+  const maxId = persons.length > 0 ?
+  Math.max(...persons.map(person => person.id))
+  : 0
 
+  return maxId + 1
+
+}
+
+app.post('/api/persons' , (req, res) => {
+
+  const body = req.body 
+
+if(!body.name && !body.number){
+  return res.status(400).json({
+    error: 'Name or Number is missing'
+  })
+}
+else if(persons.find(person => (person.name === body.name))){
+  return res.status(400).json({
+    error: 'Name is already in the list'
+  })
+}
+
+else {
+  const person = {
+    "id" : newId(),
+    "name" : body.name,
+    "number" : body.number,
+  }
+
+  
+persons.push(person)
+console.log(person);
+res.json(person)
+
+
+}
+
+
+
+
+}
+  
+  
+  
+  )
 
 const Port = 3001
 
