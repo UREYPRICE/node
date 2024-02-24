@@ -1,114 +1,108 @@
+require('dotenv').config()
 const express = require('express')
-
 const app = express()
-app.use(express.static('dist'))
+const Person = require('./models/person')
 app.use(express.json())
-const cors = require('cors')
-app.use(cors())
-let notes = [
-    {
-      id: 1,
-      content: "HTML is easy",
-      important: true
-    },
-    {
-      id: 2,
-      content: "Browser can execute only JavaScript",
-      important: false
-    },
-    {
-      id: 3,
-      content: "GET and POST are the most important methods of HTTP protocol",
-      important: true
-    }
-  ]
 
 
 
-
-app.get('/', (req, res)=> {
-    res.send('<h1>Ahmed Waqar</h1>')
+app.get('/', (req,res) => {
+  res.send('<h1>ELLO ELLO</h1>')
 })
 
 
-app.get('/api/notes', (req, res) => {
-res.json(notes)
+const date = new Date();
+
+app.get('/api/persons/info', (req, res) => {
+
+  const contactList = persons.length
+  const response = `<p>PhoneBook has info for ${contactList} people <br/><br/>
+  ${date}
+  </p>`
+
+  res.send(response)
 })
 
 
-app.get('/api/notes/:id', (req, res) => {
-const id = Number (req.params.id)
-const note = notes.find(note => note.id===id)
-res.json(note)
+app.get('/api/persons/:id', (req,res) =>{
 
-if(note){
-  res.json(note)
+const id = Number(req.params.id)
+const person = persons.find(person => person.id === id)
+
+if(person){
+  res.json(person)
 }
 else{
   res.status(404).end()
 }
 
 
-} )
+})
 
 
-app.delete('/api/notes/:id', (req, res)=> {
+app.delete('/api/persons/:id', (req, res) => {
 
 const id = Number (req.params.id)
-notes = notes.filter(note => note.id !== id)
+
+ persons = persons.filter(note => note.id !== id)
 
 res.status(204).end()
 
 
-})
-
+} )
 
 const newId = () => {
-  const maxId = notes.length > 0 
-? Math.max(...notes.map(n => n.id))
-: 0
-return maxId + 1
+ 
+  const maxId = persons.length > 0 ?
+  Math.max(...persons.map(person => person.id))
+  : 0
+
+  return maxId + 1
+
 }
 
+app.post('/api/persons' , (req, res) => {
 
-app.post('/api/notes', (req, res) => {
-const body  = req.body
+  const body = req.body 
 
-if (!body.content) {
+if(!body.name && !body.number){
+  return res.status(400).json({
+    error: 'Name or Number is missing'
+  })
+}
+else if(persons.find(person => (person.name === body.name))){
+  return res.status(400).json({
+    error: 'Name is already in the list'
+  })
+}
+
+else {
+  const person = {
+    "id" : newId(),
+    "name" : body.name,
+    "number" : body.number,
+  }
+
   
-return res.status(400).json({
+persons.push(person)
+console.log(person);
+res.json(person)
 
-error: 'content missing'
-
-})
 
 }
 
-const note = {
-  content: body.content,
-  important: body.important || false,
-  id: newId(),
+
+
+
 }
+  
+  
+  
+  )
 
-
-notes = notes.concat(note)
-console.log(note);
-res.json(note)
-})
-
-
-
-const Port = process.env.PORT || 3001 
+const Port = 3001
 
 app.listen(Port, ()=> {
-
-    console.log(`Server running on port ${Port}`)
-
-    console.log(`Check ${Port} Port or visit below link:`)
-
-    console.log(`http://localhost:${Port}`)
-
-    console.log('Or Ctrl + C to Exit the Server...');
-
+  console.log(`Server is started on Port ${Port}`)
 
 })
