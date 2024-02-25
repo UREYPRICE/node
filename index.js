@@ -3,6 +3,10 @@ const express = require('express')
 const app = express()
 const Person = require('./models/person')
 app.use(express.json())
+app.use(express.static('dist2'))
+const cors = require('cors')
+app.use(cors())
+
 
 
 
@@ -10,97 +14,49 @@ app.get('/', (req,res) => {
   res.send('<h1>ELLO ELLO</h1>')
 })
 
+app.get('/api/persons', (req, res) => {
 
-const date = new Date();
+  Person.find({}).then(person => {
+   res.json(person)
+console.log(person.length);
 
-app.get('/api/persons/info', (req, res) => {
-
-  const contactList = persons.length
-  const response = `<p>PhoneBook has info for ${contactList} people <br/><br/>
-  ${date}
-  </p>`
-
-  res.send(response)
+  })
+  
+  
 })
 
 
-app.get('/api/persons/:id', (req,res) =>{
-
-const id = Number(req.params.id)
-const person = persons.find(person => person.id === id)
-
-if(person){
-  res.json(person)
-}
-else{
-  res.status(404).end()
-}
-
-
-})
-
-
-app.delete('/api/persons/:id', (req, res) => {
-
-const id = Number (req.params.id)
-
- persons = persons.filter(note => note.id !== id)
-
-res.status(204).end()
-
-
-} )
-
-const newId = () => {
- 
-  const maxId = persons.length > 0 ?
-  Math.max(...persons.map(person => person.id))
-  : 0
-
-  return maxId + 1
-
-}
 
 app.post('/api/persons' , (req, res) => {
 
-  const body = req.body 
+  const body = req.body
 
-if(!body.name && !body.number){
-  return res.status(400).json({
-    error: 'Name or Number is missing'
-  })
-}
-else if(persons.find(person => (person.name === body.name))){
-  return res.status(400).json({
-    error: 'Name is already in the list'
-  })
-}
-
-else {
-  const person = {
-    "id" : newId(),
-    "name" : body.name,
-    "number" : body.number,
-  }
-
+  if (!body.content) {
   
-persons.push(person)
-console.log(person);
-res.json(person)
+    return res.status(400).json({
+    
+    error: 'content missing'
+    
+    })
+    
+    }
+
+ const person = new Person ({
+
+  name : body.name,
+  number : body.number,
+ })
+
+person.save().then(savedPerson =>{
+
+  res.json(savedPerson)
+  console.log(savedPerson);
+})
 
 
-}
+})
 
-
-
-
-}
-  
-  
-  
-  )
-
-const Port = 3001
+const Port = process.env.PORT
 
 app.listen(Port, ()=> {
   console.log(`Server is started on Port ${Port}`)
